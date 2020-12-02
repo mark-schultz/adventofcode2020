@@ -1,2 +1,2 @@
-# adventofcode2020
-Advent of Code 2020 in Rust
+# Advent of Code 2020
+[Advent of Code 2020](https://adventofcode.com/) in Rust.
