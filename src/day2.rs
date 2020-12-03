@@ -40,14 +40,6 @@ fn validate_password_indices(input: &Password) -> Option<bool> {
     )
 }
 
-fn none_is_false(input: Option<bool>) -> bool {
-    if let Some(i) = input {
-        i
-    } else {
-        false
-    }
-}
-
 pub fn parse_day2p1(input: &str) -> Vec<Password> {
     input.lines().filter_map(|l| line_to_password(l)).collect()
 }
@@ -62,7 +54,6 @@ pub fn solve_day2p1(input: &[Password]) -> usize {
 pub fn solve_day2p2(input: &[Password]) -> usize {
     input
         .into_iter()
-        .map(|p| validate_password_indices(p))
-        .filter(|p| none_is_false(*p))
+        .filter(|p| validate_password_indices(p).unwrap_or_default())
         .count()
 }
