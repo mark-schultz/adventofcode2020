@@ -2,13 +2,14 @@
 
 mod day1;
 mod day2;
+mod day3;
 #[macro_use]
 mod lib;
 
 fn main() {
-    let data = std::fs::read_to_string("./inputs/day2p1.txt").expect("Could not find file.");
-    let data = day2::parse_day2p1(&data);
-    let sol = day2::solve_day2p2(&data);
+    let data = std::fs::read_to_string("./inputs/day3p1.txt").expect("Could not find file.");
+    let data = day3::parse_day3p1(&data).unwrap();
+    let sol = day3::solve_day3p1(&data);
     println!("The solution is: {}", sol)
 }
 
@@ -42,5 +43,12 @@ mod tests {
         let data = day2::parse_day2p1(&data);
         let sol = day2::solve_day2p2(&data);
         assert_eq!(688, sol)
+    }
+    #[test]
+    fn test_day3p1() {
+        let data = std::fs::read_to_string("./inputs/day3p1.txt").expect("Could not find file.");
+        let data = day3::parse_day3p1(&data).unwrap();
+        let sol = day3::solve_day3p1(&data);
+        assert_eq!(257, sol)
     }
 }
