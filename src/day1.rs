@@ -1,9 +1,9 @@
 // From inspection, input are all 4-digit numbers
-pub fn parse_day1(input: &str) -> Vec<u16> {
+pub fn parse(input: &str) -> Vec<u16> {
     input.lines().map(|l| l.parse::<u16>().unwrap()).collect()
 }
 
-pub fn solve_day1p1(input: &[u16]) -> Option<u32> {
+pub fn solve_p1(input: &[u16]) -> Option<u32> {
     const TARGET: u16 = 2020;
     let mut vals: Box<[u16]> = input.to_vec().into_boxed_slice();
     vals.sort_unstable();
@@ -15,7 +15,7 @@ pub fn solve_day1p1(input: &[u16]) -> Option<u32> {
     None
 }
 
-pub fn solve_day1p2(input: &[u16]) -> Option<u64> {
+pub fn solve_p2(input: &[u16]) -> Option<u64> {
     const TARGET: u16 = 2020;
     let mut vals: Box<[u16]> = input.to_vec().into_boxed_slice();
     vals.sort_unstable();

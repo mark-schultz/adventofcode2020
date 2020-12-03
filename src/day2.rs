@@ -40,18 +40,18 @@ fn validate_password_indices(input: &Password) -> Option<bool> {
     )
 }
 
-pub fn parse_day2p1(input: &str) -> Vec<Password> {
+pub fn parse(input: &str) -> Vec<Password> {
     input.lines().filter_map(|l| line_to_password(l)).collect()
 }
 
-pub fn solve_day2p1(input: &[Password]) -> usize {
+pub fn solve_p1(input: &[Password]) -> usize {
     input
         .into_iter()
         .filter(|p| validate_password_range(p))
         .count()
 }
 
-pub fn solve_day2p2(input: &[Password]) -> usize {
+pub fn solve_p2(input: &[Password]) -> usize {
     input
         .into_iter()
         .filter(|p| validate_password_indices(p).unwrap_or_default())

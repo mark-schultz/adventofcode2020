@@ -12,7 +12,6 @@ impl Eq for Square {}
 #[derive(Debug)]
 pub enum Error {
     ParseCharError(String),
-    ParseMapError(String),
 }
 
 impl Square {
@@ -39,7 +38,7 @@ pub struct Map {
     array: Vec<Vec<Square>>,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Debug, Clone)]
 struct Point {
     row: usize,
     col: usize,
@@ -53,16 +52,16 @@ impl Index<Point> for Map {
 }
 
 #[inline]
-pub fn parse_day3p1(input: &str) -> Result<Map, Error> {
-    let lines = input.clone().lines();
-    let content: Vec<Vec<_>> = lines
+pub fn parse(input: &str) -> Result<Map, Error> {
+    let content: Vec<Vec<_>> = input
+        .lines()
+        .filter(|line| line.len() != 0)
         .map(|line| line.as_bytes().iter().map(|&b| Square::new(b)).collect())
         .collect::<Result<_, Error>>()?;
-    let nonzero: Vec<Vec<_>> = content.into_iter().filter(|line| line.len() > 0).collect();
     Ok(Map {
-        width: nonzero[0].len(),
-        height: nonzero.len(),
-        array: nonzero,
+        width: content[0].len(),
+        height: content.len(),
+        array: content,
     })
 }
 
@@ -80,13 +79,13 @@ fn solve_slope(input: &Map, slope: Point) -> usize {
 }
 
 #[inline]
-pub fn solve_day3p1(input: &Map) -> usize {
+pub fn solve_p1(input: &Map) -> usize {
     const PT: Point = Point { row: 1, col: 3 };
     solve_slope(input, PT)
 }
 
 #[inline]
-pub fn solve_day3p2(input: &Map) -> usize {
+pub fn solve_p2(input: &Map) -> usize {
     const POINTS: [Point; 5] = [
         Point { col: 1, row: 1 },
         Point { col: 3, row: 1 },
