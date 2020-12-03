@@ -1,3 +1,4 @@
+use std::iter::Iterator;
 use std::ops::{Index, Range};
 
 #[derive(Copy, Clone, PartialEq, Debug)]
@@ -68,17 +69,30 @@ pub fn parse_day3p1(input: &str) -> Result<Map, Error> {
     }
 }
 
-pub fn solve_day3p1(input: &Map) -> usize {
-    const X_DIFF: usize = 3;
-    const Y_DIFF: usize = 1;
+fn solve_slope(input: &Map, slope: Point) -> usize {
     Range {
         start: 1,
-        end: input.height,
+        end: input.height / slope.row,
     }
     .map(|i| Point {
-        row: i * Y_DIFF,
-        col: i * X_DIFF,
+        row: i * slope.row,
+        col: i * slope.col,
     })
     .filter(|pt| input[*pt] == Square::Tree)
     .count()
+}
+
+pub fn solve_day3p1(input: &Map) -> usize {
+    solve_slope(input, Point { row: 1, col: 3 })
+}
+
+pub fn solve_day3p2(input: &Map) -> usize {
+    let POINTS: Vec<Point> = vec![
+        Point { col: 1, row: 1 },
+        Point { col: 3, row: 1 },
+        Point { col: 5, row: 1 },
+        Point { col: 7, row: 1 },
+        Point { col: 1, row: 2 },
+    ];
+    POINTS.iter().map(|pt| solve_slope(input, *pt)).product()
 }
