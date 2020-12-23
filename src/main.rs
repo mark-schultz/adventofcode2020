@@ -4,7 +4,7 @@
 mod day1;
 mod day2;
 mod day3;
-//mod day4;
+mod day4;
 mod day5;
 mod day6;
 #[macro_use]
@@ -12,9 +12,9 @@ mod lib;
 
 fn main() {
     let data = std::fs::read_to_string("./inputs/day4.txt").expect("Could not find file.");
-    //let parsed_data = day4::parse(&data);
-    //let sol = day4::solve_p1(&parsed_data);
-    //dbg!(sol);
+    let parsed_data = day4::parse(&data);
+    let sol = day4::solve_p1(&parsed_data);
+    dbg!(sol);
     // 6249
 }
 
