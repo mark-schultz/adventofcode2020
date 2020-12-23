@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-#![feature(min_const_generics)]
+#![feature(min_const_generics, test)]
 
 mod day1;
 mod day2;
@@ -11,10 +11,10 @@ mod day6;
 mod lib;
 
 fn main() {
-    let data = std::fs::read_to_string("./inputs/day6.txt").expect("Could not find file.");
-    let parsed_data = day6::parse(&data).unwrap();
-    let sol = day6::solve_p2(&parsed_data);
-    dbg!(sol);
+    let data = std::fs::read_to_string("./inputs/day4.txt").expect("Could not find file.");
+    //let parsed_data = day4::parse(&data);
+    //let sol = day4::solve_p1(&parsed_data);
+    //dbg!(sol);
     // 6249
 }
 
