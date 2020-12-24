@@ -13,9 +13,8 @@ mod lib;
 fn main() {
     let data = std::fs::read_to_string("./inputs/day4.txt").expect("Could not find file.");
     let parsed_data = day4::parse(&data);
-    let sol = day4::solve_p1(&parsed_data);
+    let sol = day4::solve_p2(&parsed_data);
     dbg!(sol);
-    // 6249
 }
 
 #[cfg(test)]
@@ -63,6 +62,20 @@ mod tests {
         let sol = day3::solve_p2(&data);
         assert_eq!(1744787392, sol);
     }
+    #[test]
+    fn test_day4p1() {
+        let data = std::fs::read_to_string("./inputs/day4.txt").expect("Could not find file.");
+        let parsed_data = day4::parse(&data);
+        let sol = day4::solve_p1(&parsed_data);
+        assert_eq!(sol, 264);
+    }
+    fn test_day4p2() {
+        let data = std::fs::read_to_string("./inputs/day4.txt").expect("Could not find file.");
+        let parsed_data = day4::parse(&data);
+        let sol = day4::solve_p2(&parsed_data);
+        assert_eq!(sol, 224);
+    }
+
     #[test]
     fn test_day5p1() {
         let data = std::fs::read_to_string("./inputs/day5.txt").expect("Could not find file.");

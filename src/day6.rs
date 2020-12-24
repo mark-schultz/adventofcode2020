@@ -1,5 +1,3 @@
-#![feature(test)]
-
 fn parse_iterator(input: &str) -> Option<Vec<u32>> {
     input
         .lines()

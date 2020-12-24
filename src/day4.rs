@@ -39,7 +39,7 @@ struct UnfilledUnvalidatedPassport {
     cid: Option<String>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct UnvalidatedPassport {
     byr: String,
     iyr: String,
@@ -51,8 +51,8 @@ pub struct UnvalidatedPassport {
     cid: Option<String>,
 }
 
-#[derive(Debug)]
-pub enum LenUnit {
+#[derive(Debug, Clone, Copy)]
+enum LenUnit {
     In(u16),
     Cm(u16),
 }
@@ -70,16 +70,43 @@ impl TryFrom<&str> for LenUnit {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
+enum EyeColor {
+    AMB,
+    BLU,
+    BRN,
+    GRY,
+    GRN,
+    HZL,
+    OTH,
+}
+
+impl TryFrom<&str> for EyeColor {
+    type Error = &'static str;
+    fn try_from(inp: &str) -> Result<Self, Self::Error> {
+        match inp {
+            x if x == "amb" => Ok(EyeColor::AMB),
+            x if x == "blu" => Ok(EyeColor::BLU),
+            x if x == "brn" => Ok(EyeColor::BRN),
+            x if x == "gry" => Ok(EyeColor::GRY),
+            x if x == "grn" => Ok(EyeColor::GRN),
+            x if x == "hzl" => Ok(EyeColor::HZL),
+            x if x == "oth" => Ok(EyeColor::OTH),
+            _ => Err("Cannot parse eye color"),
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
 pub struct Passport {
     byr: u16,
     iyr: u16,
     eyr: u16,
     hgt: LenUnit,
-    ecl: String,
+    ecl: EyeColor,
     hcl: String,
     pid: usize,
-    cid: Option<u16>,
+    cid: Option<String>,
 }
 
 impl TryFrom<UnfilledUnvalidatedPassport> for UnvalidatedPassport {
@@ -137,8 +164,49 @@ impl TryFrom<UnvalidatedPassport> for Passport {
                 Err("Issue parsing eyr as int")
             }
         }?;
-        let hgt = LenUnit::try_from(&input.hgt)?;
-        Err("This is included to make the type checker happy")
+        let hgt = LenUnit::try_from(input.hgt.as_str())?;
+        let _ = {
+            match hgt {
+                LenUnit::Cm(s) if 150 <= s && s <= 193 => Ok(s),
+                LenUnit::In(s) if 59 <= s && s <= 76 => Ok(s),
+                _ => Err("Height in invalid range."),
+            }?
+        };
+        let hcl = {
+            if input.hcl.chars().next() == Some('#') {
+                if input.hcl[1..]
+                    .chars()
+                    .all(|s| s.is_ascii_digit() || "abcdef".contains(s))
+                {
+                    Ok(input.hcl)
+                } else {
+                    Err("Hex string contains non-0..9..a..f chars")
+                }
+            } else {
+                Err("Hex string not delimited by #")
+            }
+        }?;
+        let ecl = EyeColor::try_from(input.ecl.as_str())?;
+        let _ = if input.pid.len() != 9 {
+            Err("PID is wrong length")
+        } else {
+            Ok(true)
+        }?;
+        let pid = input
+            .pid
+            .parse::<usize>()
+            .map_err(|_| "Failed to parse PID")?;
+        let cid = input.cid;
+        Ok(Passport {
+            byr,
+            iyr,
+            eyr,
+            hgt,
+            ecl,
+            hcl,
+            pid,
+            cid,
+        })
     }
 }
 
@@ -150,8 +218,14 @@ pub fn parse(input: &str) -> Vec<Result<UnvalidatedPassport, &str>> {
 }
 
 pub fn solve_p1(input: &[Result<UnvalidatedPassport, &str>]) -> usize {
-    for val in input.iter() {
-        dbg!(val);
-    }
     input.iter().flatten().count()
+}
+
+pub fn solve_p2(input: &[Result<UnvalidatedPassport, &str>]) -> usize {
+    input
+        .iter()
+        .flatten()
+        .map(|p| Passport::try_from(p.clone()))
+        .flatten()
+        .count()
 }
