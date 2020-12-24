@@ -8,13 +8,14 @@ mod day4;
 mod day5;
 mod day6;
 mod day7;
+mod day8;
 #[macro_use]
 mod lib;
 
 fn main() {
-    let data = std::fs::read_to_string("./inputs/day7.txt").expect("Could not find file.");
-    let parsed_data = day7::parse(&data);
-    let sol = day7::solve_p2(parsed_data);
+    let data = std::fs::read_to_string("./inputs/day8.txt").expect("Could not find file.");
+    let parsed_data = day8::parse(&data);
+    let sol = day8::solve_p2(&parsed_data);
     dbg!(sol);
     // Guessed 249 --- too high
 }
@@ -119,5 +120,19 @@ mod tests {
         let parsed_data = day7::parse(&data);
         let sol = day7::solve_p2(parsed_data);
         assert_eq!(57281, sol);
+    }
+    #[test]
+    fn test_day8p1() {
+        let data = std::fs::read_to_string("./inputs/day8.txt").expect("Could not find file.");
+        let parsed_data = day8::parse(&data);
+        let sol = day8::solve_p1(&parsed_data).expect("Program crashed");
+        assert_eq!(2058, sol);
+    }
+    #[test]
+    fn test_day8p2() {
+        let data = std::fs::read_to_string("./inputs/day8.txt").expect("Could not find file.");
+        let parsed_data = day8::parse(&data);
+        let sol = day8::solve_p2(&parsed_data).unwrap();
+        assert_eq!(sol, 1000);
     }
 }

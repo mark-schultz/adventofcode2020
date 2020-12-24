@@ -63,8 +63,8 @@ impl TryFrom<&str> for LenUnit {
         let (val, unit) = inp.split_at(inp.len() - 2);
         let parsed_val = val.parse::<u16>().map_err(|_| "Failed to parse int")?;
         match unit {
-            x if x == "in" => Ok(LenUnit::In(parsed_val)),
-            x if x == "cm" => Ok(LenUnit::Cm(parsed_val)),
+            "in" => Ok(LenUnit::In(parsed_val)),
+            "cm" => Ok(LenUnit::Cm(parsed_val)),
             _ => Err("Failed to parse unit"),
         }
     }
@@ -85,13 +85,13 @@ impl TryFrom<&str> for EyeColor {
     type Error = &'static str;
     fn try_from(inp: &str) -> Result<Self, Self::Error> {
         match inp {
-            x if x == "amb" => Ok(EyeColor::AMB),
-            x if x == "blu" => Ok(EyeColor::BLU),
-            x if x == "brn" => Ok(EyeColor::BRN),
-            x if x == "gry" => Ok(EyeColor::GRY),
-            x if x == "grn" => Ok(EyeColor::GRN),
-            x if x == "hzl" => Ok(EyeColor::HZL),
-            x if x == "oth" => Ok(EyeColor::OTH),
+            "amb" => Ok(EyeColor::AMB),
+            "blu" => Ok(EyeColor::BLU),
+            "brn" => Ok(EyeColor::BRN),
+            "gry" => Ok(EyeColor::GRY),
+            "grn" => Ok(EyeColor::GRN),
+            "hzl" => Ok(EyeColor::HZL),
+            "oth" => Ok(EyeColor::OTH),
             _ => Err("Cannot parse eye color"),
         }
     }
