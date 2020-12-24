@@ -113,4 +113,11 @@ mod tests {
         let sol = day7::solve_p1(parsed_data);
         assert_eq!(sol.len(), 248);
     }
+    #[test]
+    fn test_day7p2() {
+        let data = std::fs::read_to_string("./inputs/day7.txt").expect("Could not find file.");
+        let parsed_data = day7::parse(&data);
+        let sol = day7::solve_p2(parsed_data);
+        assert_eq!(57281, sol);
+    }
 }
