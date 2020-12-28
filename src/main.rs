@@ -2,6 +2,8 @@
 #![feature(min_const_generics, test)]
 
 mod day1;
+mod day10;
+mod day11;
 mod day2;
 mod day3;
 mod day4;
@@ -9,15 +11,16 @@ mod day5;
 mod day6;
 mod day7;
 mod day8;
+mod day9;
 #[macro_use]
 mod lib;
 
 fn main() {
-    let data = std::fs::read_to_string("./inputs/day8.txt").expect("Could not find file.");
-    let parsed_data = day8::parse(&data);
-    let sol = day8::solve_p2(&parsed_data);
+    let data = std::fs::read_to_string("./inputs/day10.txt").expect("Could not find file.");
+    let parsed_data = day10::parse(&data);
+    let sol = day10::solve_p1(&parsed_data);
     dbg!(sol);
-    // Guessed 249 --- too high
+    // 1932 --- too low
 }
 
 #[cfg(test)]
@@ -134,5 +137,26 @@ mod tests {
         let parsed_data = day8::parse(&data);
         let sol = day8::solve_p2(&parsed_data).unwrap();
         assert_eq!(sol, 1000);
+    }
+    #[test]
+    fn test_day9p1() {
+        let data = std::fs::read_to_string("./inputs/day9.txt").expect("Could not find file.");
+        let parsed_data = day9::parse(&data);
+        let sol = day9::solve_p1(&parsed_data);
+        assert_eq!(29221323, sol.unwrap());
+    }
+    #[test]
+    fn test_day9p2() {
+        let data = std::fs::read_to_string("./inputs/day9.txt").expect("Could not find file.");
+        let parsed_data = day9::parse(&data);
+        let sol = day9::solve_p2(&parsed_data);
+        assert_eq!(sol.unwrap(), 4389369);
+    }
+    #[test]
+    fn test_day10p1() {
+        let data = std::fs::read_to_string("./inputs/day10.txt").expect("Could not find file.");
+        let parsed_data = day10::parse(&data);
+        let sol = day10::solve_p1(&parsed_data);
+        assert_eq!(2030, sol.unwrap());
     }
 }
